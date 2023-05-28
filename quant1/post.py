@@ -53,7 +53,7 @@ def main():
     traced_cell = torch.jit.trace(model_static_quantized_int8, torch.rand(1,1,32,32))
     #print(traced_cell)
     traced_cell.save('resnet_quant.pt')
-    torch.save(model.state_dict(),"./ResNet18_quant.pth")
+    torch.save(model_static_quantized_int8.state_dict(),"./ResNet18_quant.pth")
 
 
     root_dir="../test_data"
