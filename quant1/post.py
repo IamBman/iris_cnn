@@ -11,7 +11,7 @@ sys.path.append("..")
 from data import myData
 from tool import get_acc
 
-weights = './ResNet18_18.pth'
+weights = './ResNet18_17.pth'
 
 def main():
     device = torch.device('cpu')
@@ -49,7 +49,7 @@ def main():
     model_static_quantized_int8 = torch.quantization.convert(model_static_quantized)
 
 
-    print(model_static_quantized_int8)
+    #print(model_static_quantized_int8)
     traced_cell = torch.jit.trace(model_static_quantized_int8, torch.rand(1,1,32,32))
     #print(traced_cell)
     traced_cell.save('resnet_quant.pt')

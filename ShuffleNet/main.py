@@ -5,6 +5,8 @@ from torch.utils.data import DataLoader
 from shufflenet import ShuffleNet_v2
 import torch.nn as nn
 import numpy as np
+from torch.utils.tensorboard import SummaryWriter
+
 
 sys.path.append("..") 
 from data import myData
@@ -31,6 +33,9 @@ def main():
     print(model)
     criteon = nn.CrossEntropyLoss().to(device) #包含了softmax操作
     optimizer = torch.optim.Adam(model.parameters(),lr=1e-3)
+    writer = SummaryWriter("./logs")
+    fake_img = torch.zeros((1, 1, 32, 32), device=device)
+    writer.add_graph(model, fake_img)
     for epoch in range(20):
         train_loss = 0
         train_acc = 0
@@ -60,6 +65,10 @@ def main():
             train_acc / len(data_loader_train)))  
         torch.save(model.state_dict(),"./ShuffleNet_v2_%d.pth"%(epoch))
         #torch.save(model,'./ShuffleNet_v2_%d.pt'%(epoch))
+        writer.add_scalar('training loss',train_loss / len(data_loader_train), epoch )
+        writer.add_scalar('train_acc',train_acc / len(data_loader_train), epoch )
+        
+
 
 
 

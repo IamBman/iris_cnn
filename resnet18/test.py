@@ -10,7 +10,7 @@ from tool import get_acc
 
 def main():
     root_dir="../test_data"
-    label_dir = np.load('./label_dir.npy',allow_pickle=True).item()
+    label_dir = np.load('../label_dir.npy',allow_pickle=True).item()
     my_dataset=[]
     for (key,val) in label_dir.items():
         my_dataset+=myData(root_dir , key,val)

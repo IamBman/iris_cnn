@@ -29,7 +29,7 @@ def main():
     data_loader_test = DataLoader(test_data,batch_size=64, shuffle=True)
 
 
-    device = torch.device('cpu')
+    device = torch.device('cuda')
 
     for i in range(20):
         path="./ResNet18_"+str(i)+".pth"
