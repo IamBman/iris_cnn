@@ -12,7 +12,7 @@ def Convert_ONNX():
     model.eval() 
 
     # Let's create a dummy input tensor  
-    dummy_input = torch.randn(64,1,32,32,requires_grad=True,device='cuda')  
+    dummy_input = torch.randn(1,1,32,32,requires_grad=True,device='cuda')  
 
     # Export the model   
     torch.onnx.export(model,         # model being run 
@@ -30,6 +30,6 @@ def Convert_ONNX():
 
 model=ResNet18()
 model = model.to('cuda')
-model.load_state_dict(torch.load("./ResNet18_17.pth"))
+model.load_state_dict(torch.load("./ResNet18_14.pth"))
 Convert_ONNX()
 summary(model,input_size=(1,32,32))
