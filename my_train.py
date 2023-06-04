@@ -7,6 +7,7 @@ from data import myData
 from tool import get_acc
 import shutil
 
+#root_dir是训练集
 def train(model,root_dir,label_dir,model_name):
     
     my_dataset=[]

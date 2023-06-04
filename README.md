@@ -14,6 +14,9 @@
 6.  quant2是ShufflenNet的量化版
 7.  tool.py是一些工具函数
 8.  data.py是制作数据集的函数，resnet18不用这个公共函数
+9.  my_train.py是训练函数resnet18不使用这个函数
+10.  my_test.py是跑测试集的函数resnet18不使用这个函数
+11.  my_onnx.py是导出onnx模型的函数
 
 
 #### 安装教程
