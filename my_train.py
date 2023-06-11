@@ -63,6 +63,7 @@ def train(model,root_dir,label_dir,model_name):
         torch.save(model.state_dict(),"./%s_%d.pth"%(model_name,epoch))
         writer.add_scalar('training loss',train_loss / len(data_loader_train), epoch )
         writer.add_scalar('train_acc',train_acc / len(data_loader_train), epoch )
+        writer.close()
         
 
 

@@ -20,7 +20,7 @@ class BN_Conv2d(nn.Module):
     """
 
     def __init__(self, in_channels: object, out_channels: object, kernel_size: object, stride: object, padding: object,
-                 dilation=1, groups=1, bias=False, activation=True) -> object:
+                 dilation=1, groups=2, bias=False, activation=True) -> object:
         super(BN_Conv2d, self).__init__()
         layers = [nn.Conv2d(in_channels, out_channels, kernel_size=kernel_size, stride=stride,
                             padding=padding, dilation=dilation, groups=groups, bias=bias),
