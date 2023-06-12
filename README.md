@@ -4,8 +4,8 @@
 虹膜图像分类，同时测试神经网络压缩相关技术
 
 #### 软件架构
-1.  enrollment_data是用于训练的数据集，test_data是测试用的数据集，他们都来自CASIA-Iris-Thousand数据集，取自其中的第750~999号受试者。预处理使用基于hought变换的虹膜定位方案(github实在放不下数据集，后续会上传到网盘链接：https://pan.baidu.com/s/1YtMLmAuPNY_28QyyYOSHQA 
-提取码：b114)。通过极坐标展开将图像展开为256*64像素。再通过图像增强，拼接成256*256像素，得到最终的训练图像。训练集取7张，测试集取3张。图像预处理的效果如下：
+1.  enrollment_data是用于训练的数据集，test_data是测试用的数据集，他们都来自CASIA-Iris-Thousand数据集，取自其中的第750~999号受试者。预处理使用基于hought变换的虹膜定位方案(github实在放不下数据集，上传到网盘链接：https://pan.baidu.com/s/1YtMLmAuPNY_28QyyYOSHQA 
+提取码：b114)。通过极坐标展开将图像展开为256 * 64像素。再通过图像增强，拼接成256*256像素，得到最终的训练图像。训练集取7张，测试集取3张。图像预处理的效果如下：
 
 <div align=center>
   
