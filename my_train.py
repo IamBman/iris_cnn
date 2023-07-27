@@ -11,8 +11,9 @@ import shutil
 def train(model,root_dir,label_dir,model_name):
     
     my_dataset=[]
-    for (key,val) in label_dir.items():
-        my_dataset+=myData(root_dir , key,val)
+
+    for val in range(len(label_dir)):
+        my_dataset+=myData(root_dir , label_dir[val] , val)
 
     train_data=my_dataset
 

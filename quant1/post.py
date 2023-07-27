@@ -11,16 +11,16 @@ sys.path.append("..")
 from data import myData
 from tool import get_acc
 
-weights = './ResNet18_17.pth'
+weights = './ResNet18_18.pth'
 
 def main():
     device = torch.device('cpu')
     root_dir="../enrollment_data"
-    label_dir = np.load('../label_dir.npy',allow_pickle=True).item()
+    label_dir = np.load('../label_dir.npy',allow_pickle=True)
     
     my_dataset=[]
-    for (key,val) in label_dir.items():
-        my_dataset+=myData(root_dir , key,val)
+    for val in range(len(label_dir)):
+        my_dataset+=myData(root_dir , label_dir[val] , val)
 
 
     train_data=my_dataset
@@ -58,8 +58,8 @@ def main():
 
     root_dir="../test_data"
     my_dataset=[]
-    for (key,val) in label_dir.items():
-        my_dataset+=myData(root_dir , key,val)
+    for val in range(len(label_dir)):
+        my_dataset+=myData(root_dir , label_dir[val] , val)
  
  
     test_data=my_dataset

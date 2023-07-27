@@ -11,12 +11,7 @@ def get_acc(output, label):
 
 #从数据目录建立对应的字典，key是文件夹名，value是序号
 def getKey(root_dir):
-    key=os.listdir(root_dir)
-    label_dir={}
-    for val in range(len(key)):
-        label_dir[key[val]]=val
-        #print(key[val])
-        #print(val)
+    label_dir=os.listdir(root_dir)
     np.save('label_dir.npy', label_dir) 
 
 #getKey("enrollment_data")
