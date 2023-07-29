@@ -7,7 +7,7 @@ def Convert_ONNX(model, model_name, size = (64,1,32,32)):
     model.eval() 
 
     # Let's create a dummy input tensor  
-    dummy_input = torch.randn(size,device="cuda")  
+    dummy_input = torch.randn(size,device='cpu')  
     dummy_input.requires_grad = True
 
     # Export the model   

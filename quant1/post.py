@@ -81,7 +81,7 @@ def main():
         
     print("test_acc:%f"%( test_acc1 / len(data_loader_test))) 
         #torch.jit.save(torch.jit.script(model_static_quantized_int8),'resnet18_quant.pt')
-    summary(model_static_quantized_int8,input_size=(1,32,32))
+    #summary(model_static_quantized_int8,input_size=(1,32,32))
  
 
 
