@@ -1,11 +1,16 @@
 import sys
 from shufflenet import ShuffleNet_v2
 import numpy as np
+import os
+from torchsummary import summary
+import torch
 
 
 sys.path.append("..") 
 from my_train import train
 from my_test import test
+from my_onnx import Convert_ONNX
+from my_bench import benchmark
 
 def main():
     train_dir="../enrollment_data"
@@ -14,7 +19,20 @@ def main():
     
     model = ShuffleNet_v2()
     train(root_dir=train_dir,label_dir=label_dir,model=model,model_name="shufflenet_v2")
-    test(root_dir=test_dir,label_dir=label_dir,model=model,model_name="shufflenet_v2")
+    acc_list = test(root_dir=test_dir,label_dir=label_dir,model=model,model_name="shufflenet_v2")
+    ranks = np.argsort(acc_list)[::-1]
+
+    path = "./shufflenet_v2_%d.pth"%ranks[0]
+    #print(path)
+    model.load_state_dict(torch.load(path))
+    #因为量化不支持GPU所以模型加载完成后同一导出为cpu并测试
+    model = model.to('cpu')
+    Convert_ONNX(model=model,size=(1,1,32,32),model_name="shufflenet_v2.onnx")
+    summary(model,input_size=(1,32,32),device='cpu')
+    benchmark(model=model,size=(1,1,32,32))
+    for i in ranks:
+        os.remove("./shufflenet_v2_%d.pth"%i)
+    torch.save(model.state_dict(),"./%s.pth"%("shufflenet_V2"))
         
 
 

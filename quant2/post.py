@@ -11,7 +11,7 @@ sys.path.append("..")
 from data import myData
 from tool import get_acc
 
-weights = './ShuffleNet_V2_19.pth'
+weights = './ShuffleNet_V2.pth'
 
 def main():
     device = torch.device('cpu')

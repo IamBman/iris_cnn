@@ -4,6 +4,7 @@ from data import myData
 from tool import get_acc
 
 def test(model,root_dir,label_dir,model_name):
+    acc_list = []
     my_dataset=[]
 
     for val in range(len(label_dir)):
@@ -34,4 +35,7 @@ def test(model,root_dir,label_dir,model_name):
             test_acc += get_acc(y_,label)
 
         print("test_acc:%f,path:"%( test_acc / len(data_loader_test)),path) 
+        acc_list.append(test_acc/len(data_loader_test))
+
+    return acc_list
 

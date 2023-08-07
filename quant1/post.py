@@ -11,7 +11,7 @@ sys.path.append("..")
 from data import myData
 from tool import get_acc
 
-weights = './ResNet18_18.pth'
+weights = './ResNet18.pth'
 
 def main():
     device = torch.device('cpu')
