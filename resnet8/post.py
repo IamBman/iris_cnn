@@ -10,6 +10,7 @@ import sys
 sys.path.append("..") 
 from data import myData
 from tool import get_acc
+from my_bench import benchmark
 
 weights = './ResNet18.pth'
 
@@ -54,6 +55,7 @@ def main():
     #print(traced_cell)
     traced_cell.save('resnet_quant.pt')
     torch.save(model_static_quantized_int8.state_dict(),"./ResNet18_quant.pth")
+    benchmark(model=model_static_quantized_int8,size=(1,1,32,32))
 
 
     root_dir="../test_data"
