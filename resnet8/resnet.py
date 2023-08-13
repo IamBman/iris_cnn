@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 from torch.nn import functional as F
+from torch.quantization import QuantStub, DeQuantStub
 
 class LambdaLayer(nn.Module):
     def __init__(self, lambd):
@@ -22,14 +23,18 @@ class ResBlock(nn.Module):
         self.shortcut = nn.Sequential()
         if stride != 1 or ch_in != ch_out:
             self.shortcut = LambdaLayer(lambda x:F.pad(x[:, :, ::2, ::2], (0, 0, 0, 0, ch_out//4, ch_out//4), "constant", 0))
-
+        self.quant = QuantStub()
+        self.dequant = DeQuantStub()
 
 
     def forward(self,x):
         out = self.left(x)
+        x=self.dequant(x)
+        out=self.dequant(out)
         #将2个卷积层的输出跟处理过的x相加，实现ResNet的基本结构
         out = out + self.shortcut(x)
         out = F.relu(out)
+        out = self.quant(out)
         return out
 
 class ResNet18(nn.Module):
@@ -40,21 +45,31 @@ class ResNet18(nn.Module):
             nn.Conv2d(1, 64, kernel_size=3, stride=1, padding=1,bias=False),
             nn.BatchNorm2d(64),
             nn.ReLU(),
+            #nn.MaxPool2d(2)
         )
         self.layer1 = ResBlock(64, 128, stride=2)
         self.layer2 = ResBlock(128, 256, stride=2)
         self.layer3 = ResBlock( 256, 512, stride=2)
+        #self.layer4 = ResBlock( 512, 512, stride=1)
         self.fc = nn.Linear(512, num_classes)
+        self.quant = QuantStub()
+        self.dequant = DeQuantStub()
 
     def forward(self,x):
+        x = self.quant(x)
         out = self.conv1(x)
         out = self.layer1(out)
         out = self.layer2(out)
         out = self.layer3(out)
+        #out = self.layer4(out)
         
         out = F.adaptive_avg_pool2d(out,[1,1])
         out = torch.flatten(out,1)
+        #print("after conv:",x.shape)
+        #flatten
+        #x = x.view(x.shape[0],-1)
         out = self.fc(out)
+        out=self.dequant(out)
         return out
 
 #def main():

@@ -2,6 +2,8 @@ import torch
 import torch.nn as nn
 from torch.nn import functional as F
 
+from torch.ao.quantization import QuantStub, DeQuantStub
+
 def shuffle_chnls(x, groups=2):
     """Channel Shuffle"""
 
@@ -71,8 +73,11 @@ class ShuffleNet_v2(nn.Module):
         self.layer2 = DSampling(128, 256)
         self.layer3 = DSampling( 256, 512)
         self.fc = nn.Linear(512, num_classes)
+        self.quant = QuantStub()
+        self.dequant = DeQuantStub()
 
     def forward(self,x):
+        x = self.quant(x)
         out = self.conv1(x)
         out = self.layer1(out)
         out = self.layer2(out)
@@ -81,7 +86,10 @@ class ShuffleNet_v2(nn.Module):
         out = F.adaptive_avg_pool2d(out,[1,1])
         out = torch.flatten(out,1)
         out = self.fc(out)
+        out = self.dequant(out)
         return out
+
+
 
 def main():
   #blk = ResBlock(3,64,stride=2)

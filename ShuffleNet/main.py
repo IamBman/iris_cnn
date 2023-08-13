@@ -25,12 +25,13 @@ def main():
     path = "./shufflenet_v2_%d.pth"%ranks[0]
     #print(path)
     model.load_state_dict(torch.load(path))
+    torch.save(model.state_dict(),"./shufflenet_V2.pth")
     #因为量化不支持GPU所以模型加载完成后同一导出为cpu并测试
     model = model.to('cpu')
     Convert_ONNX(model=model,size=(1,1,32,32),model_name="shufflenet_v2.onnx")
     summary(model,input_size=(1,32,32),device='cpu')
     benchmark(model=model,size=(1,1,32,32))
-    for i in ranks[1::]:
+    for i in ranks:
         os.remove("./shufflenet_v2_%d.pth"%i)
         
 if __name__ == "__main__":
